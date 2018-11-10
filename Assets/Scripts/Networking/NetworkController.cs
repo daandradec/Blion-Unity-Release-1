@@ -54,6 +54,15 @@ public class NetworkController : MonoBehaviour {
         this.postRequestImage.MakePostRequest(image, url);
     }
 
+    public NetworkUrls GetUrls()
+    {
+        return this.urls;
+    }
+    public PersistentObjects GetPersistentObjects()
+    {
+        return this.persistentObjects;
+    }
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         switch (scene.name)

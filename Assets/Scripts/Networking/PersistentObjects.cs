@@ -12,6 +12,11 @@ public class PersistentObjects : MonoBehaviour {
         this.user = JsonUtility.FromJson<UserResponse>(user);
     }
 
+    public void SetCurrentUser(UserResponse user)
+    {
+        this.user = user;
+    }
+
     public UserResponse GetUser()
     {
         return user;

@@ -4,11 +4,19 @@ using UnityEngine;
 
 public class NetworkUrls : MonoBehaviour {
 
-    public const string DOMAIN = "http://aqueous-tor-84195.herokuapp.com";
+    private string DOMAIN = "http://aqueous-tor-84195.herokuapp.com";
 
-    public const string GET_USER = "/api/users/";
-    public const string GET_USER_IMAGE = "/image";
+    /* APIS URLS */
+    public string GET_USER = "/api/users/";
+    public string GET_USER_IMAGE = "/image";
+    public string POST_USER = "/api/users/";
+    public string POST_USER_IMAGE = "/image";
 
-    public const string POST_LOGIN = "";
-    public const string POST_REGISTER = "";
+    public string POST_LOGIN_API = "/api/login";
+    public string POST_REGISTER_API = "/api/register";
+
+    public string GetMainDomain()
+    {
+        return this.DOMAIN;
+    }
 }
