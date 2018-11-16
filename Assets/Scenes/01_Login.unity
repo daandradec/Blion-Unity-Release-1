@@ -457,7 +457,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Email@mail.com
+  m_Text: '********'
 --- !u!222 &301485941
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -979,7 +979,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.3301887, g: 0.095007114, b: 0.095007114, a: 0}
+  m_BackGroundColor: {r: 0.3301887, g: 0.095007114, b: 0.095007114, a: 1}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
