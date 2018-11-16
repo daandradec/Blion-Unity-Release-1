@@ -18,6 +18,9 @@ public class PostRequestImage : MonoBehaviour {
     IEnumerator PostRequestAnImage(string base64, string url)
     {
         WWWForm form = new WWWForm();
+        form.AddField("file", base64);
+        Debug.Log(base64.Length);
+        
         using (UnityWebRequest www = UnityWebRequest.Post(url, form))
         {
             yield return www.SendWebRequest();
@@ -30,5 +33,6 @@ public class PostRequestImage : MonoBehaviour {
                 Debug.Log(www.downloadHandler.text);
             }
         }
+        
     }
 }

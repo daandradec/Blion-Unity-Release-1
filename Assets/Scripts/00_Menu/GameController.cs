@@ -12,4 +12,13 @@ public class GameController : MonoBehaviour {
     {
         SceneManager.LoadScene(scene);
     }
+
+    private void Start()
+    {
+        GameObject netObject = GameObject.FindGameObjectWithTag("NetworkController");
+        if (netObject != null)
+        {
+            Destroy(netObject);
+        }
+    }
 }

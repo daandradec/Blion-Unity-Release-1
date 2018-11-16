@@ -17,6 +17,11 @@ public class PersistentObjects : MonoBehaviour {
         this.user = user;
     }
 
+    public void SetImageToCurrentUser(Sprite image)
+    {
+        this.user.image = image;
+    }
+
     public UserResponse GetUser()
     {
         return user;

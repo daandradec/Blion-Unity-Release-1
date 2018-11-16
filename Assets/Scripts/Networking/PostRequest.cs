@@ -19,6 +19,7 @@ public class PostRequest : MonoBehaviour {
             if (www.isNetworkError || www.isHttpError)
             {
                 Debug.Log(www.error);
+                this.transform.parent.gameObject.GetComponent<NetworkController>().LogRequestErrorMessage(www.error);
             }
             else
             {

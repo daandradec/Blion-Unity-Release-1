@@ -4,27 +4,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LoginButton : MonoBehaviour {
+public class RegisterButton : MonoBehaviour {
 
-    public GameController01 gameController;
+    public GameController02 gameController;
 
-
-    public void Login()
+	public void Register()
     {
+        string name = GameObject.Find("InputField Name").GetComponent<InputField>().text;
         string email = GameObject.Find("InputField Email").GetComponent<InputField>().text;
         string password = GameObject.Find("InputField Password").GetComponent<InputField>().text;
+        string password_confirmation = GameObject.Find("InputField PasswordConfirm").GetComponent<InputField>().text;
 
         var netController = gameController.GetNetworkController();
         var netURLS = netController.GetUrls();
 
-        string url = netURLS.GetMainDomain() + netURLS.POST_LOGIN_API;
-        string[] keys = {"email","password"};
-        string[] values = {email,password};
+        string url = netURLS.GetMainDomain() + netURLS.POST_REGISTER_API;
+        string[] keys = { "name","email", "password" , "password_confirmation" };
+        string[] values = { name, email, password, password_confirmation };
 
-        netController.PostRequestMethod(LoginUser, keys, values,  url);
+        netController.PostRequestMethod(RegisterUser, keys, values, url);
     }
 
-    private int LoginUser(string answer)
+    public int RegisterUser(string answer)
     {
         Response response = JsonUtility.FromJson<Response>(answer);
         if (response.success)
@@ -36,15 +37,14 @@ public class LoginButton : MonoBehaviour {
             gameController.GetNetworkController().GetRequestTexture(RequireImageAndLogin, netURLS.GetMainDomain() + netURLS.GET_USER + user.id + netURLS.GET_USER_IMAGE);
         }
         else
-            gameController.GetNetworkController().LogRequestErrorMessage(response.message);    
-            
-        
+            gameController.GetNetworkController().LogRequestErrorMessage(response.message);
+
         return 1;
     }
 
     private int RequireImageAndLogin(Texture2D texture)
     {
-        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),Vector2.zero, 1f);
+        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero, 1f);
         gameController.GetNetworkController().GetPersistentObjects().SetImageToCurrentUser(sprite);
 
         gameController.LoadSceneByName("03_User");

@@ -13,6 +13,9 @@ public class NetworkController : MonoBehaviour {
 
     private PersistentObjects persistentObjects;
     private NetworkUrls urls;
+    
+    /*DEBUG*/
+    public PauseManager pauseManager;
 
     private void Awake()
     {
@@ -22,6 +25,7 @@ public class NetworkController : MonoBehaviour {
         postRequestImage = this.GetComponent<PostRequestImage>();
         persistentObjects = this.GetComponent<PersistentObjects>();
         urls = this.GetComponent<NetworkUrls>();
+        RequireCanvasPauseManager();
     }
 
     private void Start()
@@ -54,6 +58,14 @@ public class NetworkController : MonoBehaviour {
         this.postRequestImage.MakePostRequest(image, url);
     }
 
+    public void LogRequestErrorMessage(string text)
+    {
+        pauseManager.PauseWithTextParameter(text);
+    }
+
+
+    /* GETS */
+
     public NetworkUrls GetUrls()
     {
         return this.urls;
@@ -63,12 +75,23 @@ public class NetworkController : MonoBehaviour {
         return this.persistentObjects;
     }
 
+    /* SCENES EVENTS */
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         switch (scene.name)
         {
-            case "A":
+            case "01_Login":
+                this.RequireCanvasPauseManager();
+                break;
+            case "02_Registration":
+                this.RequireCanvasPauseManager();
                 break;
         }
+    }
+
+    private void RequireCanvasPauseManager()
+    {
+        this.pauseManager = GameObject.FindGameObjectWithTag("Canvas").GetComponent<PauseManager>();
     }
 }

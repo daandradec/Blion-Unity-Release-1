@@ -17,5 +17,6 @@ namespace Assets.Scripts.Networking
         public string id;
         public string email;
         public string name;
+        public Sprite image;
     }
 }
