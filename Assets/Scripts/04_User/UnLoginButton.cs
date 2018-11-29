@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UnLoginButton : MonoBehaviour {
 
-    public GameController03 gameController;
+    public GameController04 gameController;
 
     public void UnLogin()
     {

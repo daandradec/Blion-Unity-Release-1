@@ -6,6 +6,7 @@ TagManager:
   tags:
   - NetworkController
   - Canvas
+  - MediaContents
   layers:
   - Default
   - TransparentFX

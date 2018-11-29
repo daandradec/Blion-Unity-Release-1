@@ -10,6 +10,7 @@ public class NetworkController : MonoBehaviour {
     private GetRequestTexture getRequestTexture;
     private PostRequest postRequest;
     private PostRequestImage postRequestImage;
+    private PostRequestVideo postRequestVideo;
 
     private PersistentObjects persistentObjects;
     private NetworkUrls urls;
@@ -23,6 +24,8 @@ public class NetworkController : MonoBehaviour {
         getRequestTexture = this.GetComponent<GetRequestTexture>();
         postRequest = this.GetComponent<PostRequest>();
         postRequestImage = this.GetComponent<PostRequestImage>();
+        postRequestVideo = this.GetComponent<PostRequestVideo>();
+
         persistentObjects = this.GetComponent<PersistentObjects>();
         urls = this.GetComponent<NetworkUrls>();
         RequireCanvasPauseManager();
@@ -43,6 +46,18 @@ public class NetworkController : MonoBehaviour {
         this.getRequestTexture.MakeGetRequestMethod(Method, url);
     }
 
+    public void GetRequestTextureAlpha(Func<Texture2D, string, int> Method, string url, string pathMediaContent)
+    {
+        this.getRequestTexture.MakeGetRequestMethodAlpha(Method, url, pathMediaContent);
+    }
+
+    public void GetRequestVideo()
+    {
+        // mediaplayer.url = url;
+    }
+
+
+
     public void PostRequest(string[] keys, string[] values, string url)
     {
         this.postRequest.MakePostRequest(keys, values, url);
@@ -53,10 +68,31 @@ public class NetworkController : MonoBehaviour {
         this.postRequest.MakePostRequestMethod(Method, keys, values, url);
     }
 
+
+    public void PostRequestImageBytes(byte[] image, string url, string extension)
+    {
+        this.postRequestImage.MakePostRequestBytes(image, url, extension);
+    }
+    public void PostRequestImageBytesMethodAlpha(Func<string, GameObject, int> Method, byte[] image, string url, GameObject gameObject, string extension)
+    {
+        this.postRequestImage.MakePostRequestBytesMethodAlpha(Method, image, url, gameObject, extension);
+    }
+
+    /*
     public void PostRequestImage(byte[] image, string url)
     {
         this.postRequestImage.MakePostRequest(image, url);
     }
+    public void PostRequestImageMethodAlpha(Func<string, GameObject, int> Method, byte[] image, string url, GameObject gameObject)
+    {
+        this.postRequestImage.MakePostRequestMethodAlpha(Method, image, url, gameObject);
+    }
+    */
+    public void PostRequestVideoBytesMethodAlpha(Func<string, GameObject, int> Method, byte[] video, string url, GameObject gameObject, string extension)
+    {
+        this.postRequestVideo.MakePostRequestBytesMethodAlpha(Method, video, url, gameObject, extension);
+    }
+
 
     public void LogRequestErrorMessage(string text)
     {

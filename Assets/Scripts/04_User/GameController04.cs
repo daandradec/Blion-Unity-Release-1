@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameController03 : MonoBehaviour {
+public class GameController04 : MonoBehaviour {
 
     private NetworkController networkController;
     private FilePanel filePanel;

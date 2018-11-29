@@ -33,11 +33,31 @@ public class RegisterButton : MonoBehaviour {
             UserResponse user = JsonUtility.FromJson<UserResponse>(response.message);
             var netController = gameController.GetNetworkController();
             netController.GetPersistentObjects().SetCurrentUser(user);
-            var netURLS = netController.GetUrls();
-            gameController.GetNetworkController().GetRequestTexture(RequireImageAndLogin, netURLS.GetMainDomain() + netURLS.GET_USER + user.id + netURLS.GET_USER_IMAGE);
+
+
+            StartCoroutine(CallRequest(netController, user));
         }
         else
             gameController.GetNetworkController().LogRequestErrorMessage(response.message);
+
+        return 1;
+    }
+
+    IEnumerator CallRequest(NetworkController netController, UserResponse user)
+    {
+        var netURLS = netController.GetUrls();
+        gameController.GetNetworkController().GetRequest(RequireMediaContentsUser, netURLS.GetMainDomain() + netURLS.GET_USER + user.id + netURLS.GET_USER_CONTENTS);
+        yield return new WaitForSeconds(0.5f);
+        gameController.GetNetworkController().GetRequestTexture(RequireImageAndLogin, netURLS.GetMainDomain() + netURLS.GET_USER + user.id + netURLS.GET_USER_IMAGE);
+    }
+
+    private int RequireMediaContentsUser(string answer)
+    {
+        ResponseList response = JsonUtility.FromJson<ResponseList>(answer);
+        if (response.success)
+        {
+            gameController.GetNetworkController().GetPersistentObjects().SetMediaContentsUserURLS(response.message);
+        }
 
         return 1;
     }
@@ -47,7 +67,7 @@ public class RegisterButton : MonoBehaviour {
         Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero, 1f);
         gameController.GetNetworkController().GetPersistentObjects().SetImageToCurrentUser(sprite);
 
-        gameController.LoadSceneByName("03_User");
+        gameController.LoadSceneByName("03_Loading");
         return 1;
     }
 }

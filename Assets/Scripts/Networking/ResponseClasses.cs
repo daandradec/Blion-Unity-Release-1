@@ -12,11 +12,22 @@ namespace Assets.Scripts.Networking
     }
 
     [System.Serializable]
+    public class ResponseList
+    {
+        public bool success;
+        public string[] message;
+    }
+
+    [System.Serializable]
     public class UserResponse
     {
         public string id;
         public string email;
         public string name;
         public Sprite image;
+        public string[] mediaContentsURLS;
+        public List<Sprite> mediaContentsImages;
+        public List<string> mediaContentsImagesPathsOrder;
+        public List<string> mediaContentsVideosURLS;
     }
 }

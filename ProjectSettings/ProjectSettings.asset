@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: Blion
+  companyName: BlionCorp
   productName: Blion
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -243,8 +243,8 @@ PlayerSettings:
   AndroidTargetArchitectures: 5
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/USUARIO/Documents/Unity Projects/Blion/blion.keystore
-  AndroidKeyaliasName: blion_production
+  AndroidKeystoreName: C:/Users/USUARIO/Documents/Unity Projects/Blion/blionCorp.keystore
+  AndroidKeyaliasName: blioncorp
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0
   AndroidIsGame: 1
