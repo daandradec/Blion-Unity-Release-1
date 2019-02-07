@@ -28,7 +28,7 @@ public class LoginButton : MonoBehaviour {
     {
         Response response = JsonUtility.FromJson<Response>(answer);
         if (response.success)
-        {
+        {            
             UserResponse user = JsonUtility.FromJson<UserResponse>(response.message);
             var netController = gameController.GetNetworkController();
             netController.GetPersistentObjects().SetCurrentUser(user);

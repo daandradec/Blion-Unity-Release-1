@@ -67,7 +67,7 @@ public class AddContentButton : MonoBehaviour {
     {
         Response response = JsonUtility.FromJson<Response>(answer);
         if (response.success)
-        {
+        {            
             mediaImage.GetComponent<MediaContent>().SetAsociatedPath(response.message);
             this.gameController.GetNetworkController().GetPersistentObjects().SetMediaContentsImagePathOrder(response.message);
         }

@@ -24,6 +24,7 @@ namespace Assets.Scripts.Networking
         public string id;
         public string email;
         public string name;
+        public string email_verified_at;
         public Sprite image;
         public string[] mediaContentsURLS;
         public List<Sprite> mediaContentsImages;

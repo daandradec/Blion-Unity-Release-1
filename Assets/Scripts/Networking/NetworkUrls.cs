@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NetworkUrls : MonoBehaviour {
 
-    private string DOMAIN =  "http://blion.test";/** http://aqueous-tor-84195.herokuapp.com  **/
+    private string DOMAIN = "http://aqueous-tor-84195.herokuapp.com";/** "http://blion.test" **/
 
     /* APIS URLS */
     public string GET_USER = "/api/users/";

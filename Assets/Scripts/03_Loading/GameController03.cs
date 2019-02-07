@@ -40,7 +40,7 @@ public class GameController03 : MonoBehaviour {
         return 1;
     }
 
-    IEnumerator ChangeScene() // una opcion podria ser llevar un contador que haga esto si la cuenta es igual al numero de recursos
+    IEnumerator ChangeScene() // una opcion podria ser llevar un contador que haga esto si la cuenta es igual al numero de recursos, o en la ultima iteracion de video hacer el cambio de escena
     {
         yield return new WaitForSeconds(1.75f);
         LoadSceneByName("04_User");

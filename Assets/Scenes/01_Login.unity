@@ -2239,11 +2239,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1594530060}
   - component: {fileID: 1594530065}
+  - component: {fileID: 1594530066}
   - component: {fileID: 1594530061}
   - component: {fileID: 1594530064}
   - component: {fileID: 1594530063}
   - component: {fileID: 1594530062}
-  - component: {fileID: 1594530066}
   - component: {fileID: 1594530067}
   - component: {fileID: 1594530069}
   - component: {fileID: 1594530068}
