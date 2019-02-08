@@ -53,7 +53,7 @@ public class AddContentButton : MonoBehaviour {
             else
             {
                 GameObject mediaVideo = gameController.InstantianteMediaContentComponent(gameController.GetPrefabVideoMediaContent(), gameController.GetMedConOffsetX(), gameController.GetMedConOffsetY());
-                gameController.UpdateMediaContentCoordinates(mediaVideo);
+                gameController.UpdateMediaContentCoordinates(mediaVideo);                
 
                 netController.PostRequestVideoBytesMethodAlpha(SetMediaContentVideoPathToGameObject, img,
                     netURLS.GetMainDomain() + netURLS.POST_USER + netController.GetPersistentObjects().GetUser().id + netURLS.POST_USER_MEDIA_CONTENTS,

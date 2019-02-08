@@ -33,41 +33,12 @@ public class LoginButton : MonoBehaviour {
             var netController = gameController.GetNetworkController();
             netController.GetPersistentObjects().SetCurrentUser(user);
 
-            
-            StartCoroutine( CallRequest(netController, user) );
+            gameController.LoadSceneByName("03_Loading");
         }
         else
             gameController.GetNetworkController().LogRequestErrorMessage(response.message);    
             
         
-        return 1;
-    }
-
-    IEnumerator CallRequest(NetworkController netController, UserResponse user)
-    {
-        var netURLS = netController.GetUrls();
-        gameController.GetNetworkController().GetRequest(RequireMediaContentsUser, netURLS.GetMainDomain() + netURLS.GET_USER + user.id + netURLS.GET_USER_CONTENTS);
-        yield return new WaitForSeconds(0.5f);
-        gameController.GetNetworkController().GetRequestTexture(RequireImageAndLogin, netURLS.GetMainDomain() + netURLS.GET_USER + user.id + netURLS.GET_USER_IMAGE);        
-    }
-
-    private int RequireMediaContentsUser(string answer)
-    {
-        ResponseList response = JsonUtility.FromJson<ResponseList>(answer);
-        if (response.success)
-        {
-            gameController.GetNetworkController().GetPersistentObjects().SetMediaContentsUserURLS(response.message);
-        }
-
-        return 1;
-    }
-
-    private int RequireImageAndLogin(Texture2D texture)
-    {
-        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),Vector2.zero, 1f);
-        gameController.GetNetworkController().GetPersistentObjects().SetImageToCurrentUser(sprite);
-
-        gameController.LoadSceneByName("03_Loading");
         return 1;
     }
 }

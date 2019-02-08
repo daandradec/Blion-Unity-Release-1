@@ -92,32 +92,7 @@ public class FileBrowserAndroid : MonoBehaviour {
             int mid = path.Length >> 1;
             path = path.Substring(path.Substring(mid).IndexOf('\\') + mid);
         }
-        /*
-        int flag = path.Length / 38;        
-        if (flag > 0)
-        {
-            string newPath = "";
-            int indexSlash = 0;
-            int newInitialPosition = 0;
-            List<int> allLineBreaksPositions = new List<int>();
-            for (int i = 0;i < flag; ++i)
-            {
-                indexSlash = GetLastSlash(path.Substring(indexSlash, 38 - 1));
-                newPath += path.Substring(newInitialPosition, indexSlash) + "\n";
-                newPath = newPath.Replace(" ", "");
-                newInitialPosition += indexSlash;
-                allLineBreaksPositions.Add(newInitialPosition);
-            }
-            newPath += path.Substring(newInitialPosition, path.Length - newInitialPosition);
-            newPath = newPath.Replace(" ","");
 
-            if (flag > 2)
-            {
-                newPath = newPath.Substring(allLineBreaksPositions[flag-3]);
-            }
-            return newPath.ToLower();
-        }
-        */
         return path.ToLower();        
     }
     private int GetLastSlash(string path)
@@ -148,5 +123,10 @@ public class FileBrowserAndroid : MonoBehaviour {
     public string GetRootDirectory()
     {
         return this.root;
+    }
+
+    public string GetCurrentPath()
+    {
+        return this.currentPath;
     }
 }

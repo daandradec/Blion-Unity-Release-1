@@ -9,7 +9,14 @@ public class BackButton : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        filebrowserAndroid.ReBuildFilesAndDirectoriesWithoutMemory(filebrowserAndroid.GetBeforeDirectoryVisisted());
+        string path = filebrowserAndroid.GetBeforeDirectoryVisisted();
+        string root_directory = filebrowserAndroid.GetRootDirectory();
+        if (path == root_directory && filebrowserAndroid.GetCurrentPath() == root_directory)
+        {
+            Destroy(filebrowserAndroid.gameObject);
+            return;
+        }
+        filebrowserAndroid.ReBuildFilesAndDirectoriesWithoutMemory(path);
     }
 
 }
