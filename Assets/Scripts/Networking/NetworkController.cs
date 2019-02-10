@@ -6,17 +6,24 @@ using UnityEngine.SceneManagement;
 
 public class NetworkController : MonoBehaviour {
 
+    /* TODAS LAS VARIABLES ATRIBUTOS DE REQUEST */
     private GetRequest getRequest;
     private GetRequestTexture getRequestTexture;
     private PostRequest postRequest;
     private PostRequestImage postRequestImage;
     private PostRequestVideo postRequestVideo;
 
+    /* VARIABLES ATRIBUTOS PERSISTENTES */
     private PersistentObjects persistentObjects;
     private NetworkUrls urls;
     
-    /*DEBUG*/
+    /* DEBUG PANEL */
     public PauseManager pauseManager;
+
+
+
+
+    /* ################################### INICIALIZACIÓN ################################### */
 
     private void Awake()
     {
@@ -36,10 +43,19 @@ public class NetworkController : MonoBehaviour {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+
+
+    /* ###################################### REQUEST GET GENERICO ###################################### */
+
     public void GetRequest(Func<string, int> Method, string url)
     {
         this.getRequest.MakeGetRequestMethod(Method, url);
     }
+
+
+
+
+    /* ###################################### REQUEST GET ASOCIADOS A IMAGENES ###################################### */
 
     public void GetRequestTexture(Func<Texture2D, int> Method, string url)
     {
@@ -51,11 +67,11 @@ public class NetworkController : MonoBehaviour {
         this.getRequestTexture.MakeGetRequestMethodAlpha(Method, url, pathMediaContent);
     }
 
-    public void GetRequestVideo()
-    {
-        // mediaplayer.url = url;
-    }
 
+
+
+
+    /* ###################################### REQUEST POST COMUNES ###################################### */
 
 
     public void PostRequest(string[] keys, string[] values, string url)
@@ -69,6 +85,9 @@ public class NetworkController : MonoBehaviour {
     }
 
 
+
+    /* ###################################### REQUEST POST ASOCIADOS A IMAGENES ###################################### */
+
     public void PostRequestImageBytes(byte[] image, string url, string extension)
     {
         this.postRequestImage.MakePostRequestBytes(image, url, extension);
@@ -78,21 +97,19 @@ public class NetworkController : MonoBehaviour {
         this.postRequestImage.MakePostRequestBytesMethodAlpha(Method, image, url, gameObject, extension);
     }
 
-    /*
-    public void PostRequestImage(byte[] image, string url)
-    {
-        this.postRequestImage.MakePostRequest(image, url);
-    }
-    public void PostRequestImageMethodAlpha(Func<string, GameObject, int> Method, byte[] image, string url, GameObject gameObject)
-    {
-        this.postRequestImage.MakePostRequestMethodAlpha(Method, image, url, gameObject);
-    }
-    */
+
+
+
+    /* ###################################### REQUEST POST ASOCIADOS A VIDEOS ###################################### */
+
     public void PostRequestVideoBytesMethodAlpha(Func<string, GameObject, int> Method, byte[] video, string url, GameObject gameObject, string extension)
     {
         this.postRequestVideo.MakePostRequestBytesMethodAlpha(Method, video, url, gameObject, extension);
     }
 
+
+
+    /* ###################################### PANEL DE DEBUGGING ###################################### */
 
     public void LogRequestErrorMessage(string text)
     {
@@ -100,7 +117,10 @@ public class NetworkController : MonoBehaviour {
     }
 
 
-    /* GETS */
+
+
+
+    /* ###################################### GETTERS ###################################### */
 
     public NetworkUrls GetUrls()
     {
@@ -111,7 +131,9 @@ public class NetworkController : MonoBehaviour {
         return this.persistentObjects;
     }
 
-    /* SCENES EVENTS */
+
+
+    /* ###################################### SCENES EVENTS ###################################### */
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {

@@ -6,18 +6,27 @@ using UnityEngine.UI;
 
 public class GameController05 : MonoBehaviour {
 
+
+    /* VARIABLES ATRIBUTOS QUE VIENEN DEL INSPECTOR */
     public Canvas canvas;
     public GameObject mediaContentsBody;
     public GameObject imageMediaContent;
     public GameObject videoMediaContent;
 
+
+    /* VARIABLES ATRIBUTOS DE CALCULOS */
     private float width;
     private float x_count;
     private float y_count;
     private float MAX_LIMIT_WIDTH;
 
+
+    /* VARIABLES ATRIBUTOS COMPONENTES OBJETOS */
     private NetworkController networkController;
     private FilePanel filePanel;
+
+
+    /* ################################### INICIALIZACIÓN ################################### */
 
     private void Awake()
     {
@@ -27,14 +36,20 @@ public class GameController05 : MonoBehaviour {
     }
 
     private void Start()
-    {
-        
+    {        
         width = (imageMediaContent.GetComponent<RectTransform>().rect.width + 10f) * canvas.scaleFactor;
         x_count = 0f;
         y_count = 0f;
     
         FillMediaContent();
     }
+
+
+
+
+
+
+    /* ########################## ITERAR TODOS LOS CONTENIDOS MEDIA DE IMAGENES Y VIDEO Y AÑADIRLOS A LA ESCENA ########################## */
 
     public void FillMediaContent()
     {
@@ -44,7 +59,7 @@ public class GameController05 : MonoBehaviour {
         {
             GameObject mediaImage = InstantianteMediaContentComponent(imageMediaContent, (width * x_count), (width * y_count));
 
-            mediaImage.GetComponent<MediaContent>().SetAsociatedPath(this.networkController.GetPersistentObjects().GetMediaContentsImagePathOrder(index));
+            mediaImage.GetComponent<MediaContent>().SetAssociatedPathAndIndex(this.networkController.GetPersistentObjects().GetMediaContentsImagePathOrder(index),index);
 
             ConfigureMediaContentImage(mediaImage, image);
 
@@ -55,18 +70,28 @@ public class GameController05 : MonoBehaviour {
         }
 
         var netURLS = this.networkController.GetUrls();
+        index = 0;
 
         foreach (string path in this.networkController.GetPersistentObjects().GetUser().mediaContentsVideosURLS)
         {
             GameObject mediaVideo = InstantianteMediaContentComponent(videoMediaContent, (width * x_count), (width * y_count));
 
-            mediaVideo.GetComponent<MediaContent>().SetAsociatedPath(path);
+            mediaVideo.GetComponent<MediaContent>().SetAssociatedPathAndIndex(path, index);
 
-            mediaVideo.GetComponent<VideoMediaContent>().ConfigureVideoPlayer(netURLS.GetMainDomain() + netURLS.GET_USER_MEDIA_CONTENTS + "?path=" + path);
+            mediaVideo.transform.GetChild(0).GetComponent<VideoMediaContent>().ConfigureVideoPlayer(netURLS.GetMainDomain() + netURLS.GET_USER_MEDIA_CONTENTS + "?path=" + path);
 
             UpdateMediaContentCoordinates(mediaVideo);
+
+            ++index;
         }
     }
+
+
+
+
+
+    /* ####################   METODOS PARA INSTANCIAR COMPONENTES MEDIA DE IMAGEN O VIDEO   ####################*/
+
 
     public GameObject InstantianteMediaContentComponent(GameObject prefab, float offsetx, float offsety)
     {
@@ -76,12 +101,23 @@ public class GameController05 : MonoBehaviour {
         return mediaObject;
     }
 
+
+    /* ####################  METODOS PARA CONFIGURAR LAS IMAGENES O VIDEOS QUE ESTARAN EN LA ESCENA ####################*/
+
+
     public void ConfigureMediaContentImage(GameObject mediaImage, Sprite image)
     {
         Image imageObject = mediaImage.transform.GetChild(0).GetComponent<Image>();
         imageObject.preserveAspect = true;
         imageObject.sprite = image;
     }
+
+
+
+
+
+
+    /* #################### ACTUALIZADO Y BORRADO DE LAS VARIABLES QUE MANEJAN LA DISPOSICION DE REJILLA EN LA ESCENA #################### */
 
     public void UpdateMediaContentCoordinates(GameObject mediaImage)
     {
@@ -105,6 +141,13 @@ public class GameController05 : MonoBehaviour {
             GameObject.Destroy(child.gameObject);
         }
     }
+
+
+
+
+
+
+    /* ################################### Metodos exclusivos del GameController05 ################################### */
 
     public float GetMedConOffsetX()
     {

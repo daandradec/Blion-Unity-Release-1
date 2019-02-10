@@ -4,13 +4,22 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
 
+    /* VARIABLE ATRIBUTO REFERENCIA DEL GAMECONTROLLER DE LA ESCENA */
     public GameController gameController;
 
+
+
+
+    /* ################################### METODO QUE AL LLAMARSE EJECUTARA LA CORRUTINA MOVERIGHT ################################### */
     public void MakeAnimation(string sceneToChangeOnFinished)
     {
         StartCoroutine(MoveRight(sceneToChangeOnFinished));        
     }
 
+
+
+
+    /* ##################### CORRUTINA QUE HACE LA ANIMACION DE MOVIMIENTO DE LA NAVE, Y AL TERMINAR CAMBIA LA ESCENA ##################### */
     private IEnumerator MoveRight(string sceneToChangeOnFinished)
     {
         bool flag = true;
@@ -25,4 +34,6 @@ public class PlayerMovement : MonoBehaviour {
         
         gameController.LoadSceneByName(sceneToChangeOnFinished);
     }
+
+
 }

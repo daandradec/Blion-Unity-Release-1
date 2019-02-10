@@ -6,7 +6,10 @@ using UnityEngine;
 public class PersistentObjects : MonoBehaviour {
 
     private UserResponse user;
-    
+
+
+    /* ###################################### USER SETTERS ###################################### */
+
     public void SetCurrentUser(string user)
     {
         this.user = JsonUtility.FromJson<UserResponse>(user);
@@ -19,11 +22,28 @@ public class PersistentObjects : MonoBehaviour {
     }
 
 
+
+
+    /* ###################################### USER GETTERS ###################################### */
+
+    public UserResponse GetUser()
+    {
+        return user;
+    }
+
+
+
+    /* ###################################### USER METHODS ###################################### */
+
     public void SetImageToCurrentUser(Sprite image)
     {
         this.user.image = image;
     }
 
+
+
+
+    /* ###################################### USER ATTRIBUTE : MEDIACONTENTSURLS ###################################### */
 
     public void SetMediaContentsUserURLS(string[] urls)
     {
@@ -32,15 +52,22 @@ public class PersistentObjects : MonoBehaviour {
 
 
 
+
+    /* ############################### USER ATTRIBUTE : MEDIACONTENTS IMAGES GETTERS-SETTERS-METHODS ################################ */
+
     public void SetNewMediaContentsImage(Sprite image)
     {
         this.user.mediaContentsImages.Add(image);
     }
 
-    public void SetMediaContentsImagePathOrder(string path)
+    public void RemoveItemMediaContentsImage(int index)
     {
-        this.user.mediaContentsImagesPathsOrder.Add(path);
+        this.user.mediaContentsImages.RemoveAt(index);
     }
+
+
+
+    /* ############################ USER ATTRIBUTE : MEDIACONTENTSIMAGES PATH ORDER GETTERS-SETTERS-METHODS ############################ */
 
     public string GetMediaContentsImagePathOrder(int index)
     {
@@ -52,9 +79,9 @@ public class PersistentObjects : MonoBehaviour {
         return this.user.mediaContentsImagesPathsOrder.IndexOf(path);
     }
 
-    public void RemoveItemMediaContentsImage(int index)
+    public void SetMediaContentsImagePathOrder(string path)
     {
-        this.user.mediaContentsImages.RemoveAt(index);
+        this.user.mediaContentsImagesPathsOrder.Add(path);
     }
 
     public void RemoveItemMediaContentsImagePathOrder(int index)
@@ -64,18 +91,28 @@ public class PersistentObjects : MonoBehaviour {
 
 
 
+
+    /* ############################## USER ATTRIBUTE : MEDIACONTENTSVIDEOS GETTERS-SETTERS-METHODS ############################## */
+
+    public string GetMediaContentsVideo(int index)
+    {
+        return this.user.mediaContentsVideosURLS[index];
+    }
+
     public void SetMediaContentsVideo(string path)
     {
         this.user.mediaContentsVideosURLS.Add(path);
     }
+
+    public void RemoveItemMediaContentsVideo(int index)
+    {
+        this.user.mediaContentsVideosURLS.RemoveAt(index);
+    }
+
     public void RemoveItemMediaContentsVideo(string path)
     {
         this.user.mediaContentsVideosURLS.Remove(path);
     }
 
-    public UserResponse GetUser()
-    {
-        return user;
-    }
 }
 

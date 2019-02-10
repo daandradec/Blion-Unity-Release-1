@@ -5,12 +5,22 @@ using UnityEngine.SceneManagement;
 
 public class GameController01 : MonoBehaviour {
 
+    /* VARIABLE ATRIBUTO CONTROLADOR DE REDES */
     private NetworkController networkController;
+
+
+
+    /* ################################### INICIALIZACIÓN ################################### */
 
     private void Awake()
     {
         this.networkController = GameObject.FindGameObjectWithTag("NetworkController").GetComponent<NetworkController>();
     }
+
+
+
+
+    /* ################################### Metodos exclusivos del GameController01 ################################### */
 
     public NetworkController GetNetworkController()
     {
@@ -21,4 +31,6 @@ public class GameController01 : MonoBehaviour {
     {
         SceneManager.LoadScene(scene);
     }
+
+
 }

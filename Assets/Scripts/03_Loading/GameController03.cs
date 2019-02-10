@@ -8,10 +8,17 @@ using Assets.Scripts.Networking;
 
 public class GameController03 : MonoBehaviour {
 
+
+    /* VARIABLE ATRIBUTO CONTROLADOR DE REDES */
     private NetworkController networkController;
+
+    /* VARIABLES ATRIBUTOS DE CALCULOS */
     private int resources;
     private int LEN_RESOURCES;
 
+
+
+    /* ################################### INICIALIZACIÓN ################################### */
     private void Awake()
     {
         this.networkController = GameObject.FindGameObjectWithTag("NetworkController").GetComponent<NetworkController>();
@@ -20,19 +27,35 @@ public class GameController03 : MonoBehaviour {
     }
 
 
+
+
+
+
+
+    /* ####################### TODOS LOS METODOS DE PETICIONES NECESARIOS ANTES DE ENTRAR AL HOME DE LA APLICACIÓN ####################### */
+
+
+
+    /// <summary> #####################################################################################
+    ///        Metodo para hacer la peticion de la imagen de perfil del usuario, al completarse la peticion ejecutara el metodo RequireImage 
+    /// </summary> 
     private void CallRequest()
     {
         var netURLS = this.networkController.GetUrls();
         UserResponse user = this.networkController.GetPersistentObjects().GetUser();
         this.networkController.GetRequestTexture(RequireImage, netURLS.GetMainDomain() + netURLS.GET_USER + user.id + netURLS.GET_USER_IMAGE);        
     }
-    private void CallMainRequest()
-    {
-        var netURLS = this.networkController.GetUrls();
-        UserResponse user = this.networkController.GetPersistentObjects().GetUser();
-        this.networkController.GetRequest(RequireMediaContentsUser, netURLS.GetMainDomain() + netURLS.GET_USER + user.id + netURLS.GET_USER_CONTENTS);
-    }
 
+
+
+
+
+
+    /// <summary> #####################################################################################
+    ///        Metodo que se ejecuta cuando la peticion de la imagen fue hecha al servidor, se encarga de a partir de la textura obtenida
+    ///        crear un sprite y guardarlo como la imagen de perfil del usuario logueado, esta se guarda como un sprite persistente de la clase 
+    ///        Objeto UserResponse (objeto persistente del NetworkController).
+    /// </summary> 
     private int RequireImage(Texture2D texture)
     {
         Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero, 1f);
@@ -41,6 +64,32 @@ public class GameController03 : MonoBehaviour {
         return 1;
     }
 
+
+
+
+
+
+    /// <summary> #####################################################################################
+    ///        Metodo para hacer la peticion de los contenidos Media (imagenes,y video) del usuario logueado, se ejecuta despues de que se
+    ///        que pide la imagen de perfil del usuario.
+    /// </summary>
+    private void CallMainRequest()
+    {
+        var netURLS = this.networkController.GetUrls();
+        UserResponse user = this.networkController.GetPersistentObjects().GetUser();
+        this.networkController.GetRequest(RequireMediaContentsUser, netURLS.GetMainDomain() + netURLS.GET_USER + user.id + netURLS.GET_USER_CONTENTS);
+    }
+
+
+
+
+
+
+    /// <summary> #####################################################################################
+    ///        Metodo que se ejecuta cuando la peticion de los contenidos media del usuario fueron hechas, lo guarda en la lista de objetos
+    ///        persistentes del UserResponse del NetworkController, despues de guardar las urls entonces hace el ultimo request y mas importante
+    ///        antes de pasar a la siguiente escena en RequestAllRemainingBlion()
+    /// </summary> 
     private int RequireMediaContentsUser(string answer)
     {
         ResponseList response = JsonUtility.FromJson<ResponseList>(answer);
@@ -53,12 +102,30 @@ public class GameController03 : MonoBehaviour {
         return 1;
     }
 
+
+
+
+
+
+
+
+
+    /// <summary> #####################################################################################
+    ///        Metodo para hacer la peticion de las texturas correspondientes a las imagenes.
+    ///        El metodo comienza inicializando unas variables, una de esas es el array de strings de las urls de los contenidos media del
+    ///        usuario, luego recorre la lista y pregunta cuales corresponden a la extension del tipo imagen, y las guarda en una lista para
+    ///        procesarlas despues del primer bucle, y lo que no son imagen los toma como video y los guarda en la lista de urls.
+    ///        Luego segun el numero de imagenes en la lista lo asigna a la variable LEN_RESOURCES que se usara para saber despues de hacer
+    ///        la peticion de todas las imagenes en el segundo bucle si todas las imagenes fueron pedidas.
+    /// </summary> 
     private void RequestAllRemainingBlion()
     {
-        string[] mediaContentsURLS = this.networkController.GetPersistentObjects().GetUser().mediaContentsURLS;
-        var netURLS = this.networkController.GetUrls();
+        string[] mediaContentsURLS = this.networkController.GetPersistentObjects().GetUser().mediaContentsURLS;        
         string[] image_extensions = { ".png", ".jpg", ".jpeg" };
+        var netURLS = this.networkController.GetUrls();
         List<string> images_urls = new List<string>();
+
+
         foreach (string url in mediaContentsURLS)
         {
             if (image_extensions.Contains(Path.GetExtension(url)))
@@ -66,7 +133,11 @@ public class GameController03 : MonoBehaviour {
             else
                 this.networkController.GetPersistentObjects().SetMediaContentsVideo(url);
         }
+
+
         this.LEN_RESOURCES = images_urls.Count();                
+
+
         foreach (string url_image in images_urls)
         {
             this.networkController.GetRequestTextureAlpha(RequireMediaContentImage, netURLS.GetMainDomain() + netURLS.GET_USER_MEDIA_CONTENTS + "?path=" + url_image, url_image);
@@ -76,18 +147,49 @@ public class GameController03 : MonoBehaviour {
             LoadSceneByName("04_User");
     }
 
+
+
+
+
+
+
+    /* ################################### Metodos asociados a los contenidos media de tipo imagenes ################################### */
+
+
+
+    /// <summary> #####################################################################################
+    ///         Metodo que se ejecuta cuando la peticion de la imagen fue hecha al servidor, se encarga de a partir de la textura obtenida
+    ///         crear un sprite y guardarlo en la lista de objetos persistentes de imageMediaContents para poder tener su referencia.
+    ///         Por ultimo actualiza el numero de recursos cargados.
+    /// </summary>   
     public int RequireMediaContentImage(Texture2D texture, string pathMediaContent)
     {
         Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero, 1f);
         this.networkController.GetPersistentObjects().SetNewMediaContentsImage(sprite);
         this.networkController.GetPersistentObjects().SetMediaContentsImagePathOrder(pathMediaContent);
-        ++this.resources;
-        if(this.resources >= this.LEN_RESOURCES)
-            LoadSceneByName("04_User");
-        
+
+        EventChangeSceneWhenMaxResourcesLoaded();
+
         return 1;
     }
-    // una opcion podria ser llevar un contador que haga esto si la cuenta es igual al numero de recursos, o en la ultima iteracion de video hacer el cambio de escena
+
+
+    /// <summary> #####################################################################################
+    ///         Metodo para llevar la cuenta del numero de recursos e incrementarlo para saber si todas las imagenes pedidas al hacer la peticion
+    ///         alcanza el numero de imagenes que tiene el usuario, si todas las imagenes fueron pedidas entonces cambie a la siguiente escena.
+    /// </summary>  
+    private void EventChangeSceneWhenMaxResourcesLoaded()
+    {
+        ++this.resources;
+        if (this.resources >= this.LEN_RESOURCES)
+            LoadSceneByName("04_User");
+    }
+
+
+
+
+
+    /* ################################### Metodos exclusivos del GameController03 ################################### */
 
     public void LoadSceneByName(string scene)
     {
