@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
+using Assets.Scripts.Networking;
 
 public class GameController05 : MonoBehaviour {
 
@@ -69,8 +70,9 @@ public class GameController05 : MonoBehaviour {
 
         }
 
+        UserResponse user = this.networkController.GetPersistentObjects().GetUser();
         var netURLS = this.networkController.GetUrls();
-        index = 0;
+        index = 0;       
 
         foreach (string path in this.networkController.GetPersistentObjects().GetUser().mediaContentsVideosURLS)
         {
@@ -78,7 +80,7 @@ public class GameController05 : MonoBehaviour {
 
             mediaVideo.GetComponent<MediaContent>().SetAssociatedPathAndIndex(path, index);
 
-            mediaVideo.transform.GetChild(0).GetComponent<VideoMediaContent>().ConfigureVideoPlayer(netURLS.GetMainDomain() + netURLS.GET_USER_MEDIA_CONTENTS + "?path=" + path);
+            mediaVideo.transform.GetChild(0).GetComponent<VideoMediaContent>().ConfigureVideoPlayer(netURLS.GetMainDomain() + netURLS.GET_USER + user.id + "/" + user.auth_token + netURLS.GET_USER_MEDIA_CONTENTS + "?path=" + path);
 
             UpdateMediaContentCoordinates(mediaVideo);
 

@@ -23,7 +23,13 @@ public class GameController03 : MonoBehaviour {
     {
         this.networkController = GameObject.FindGameObjectWithTag("NetworkController").GetComponent<NetworkController>();
         this.resources = 0;
-        CallRequest();
+    }
+
+    private void Start()
+    {
+        // si el usuario existe en el networkController garantiza que paso por la escena 01_login o 02_registration  
+        if (this.networkController.GetPersistentObjects().GetUser() != null)
+            CallRequest();
     }
 
 
@@ -43,7 +49,7 @@ public class GameController03 : MonoBehaviour {
     {
         var netURLS = this.networkController.GetUrls();
         UserResponse user = this.networkController.GetPersistentObjects().GetUser();
-        this.networkController.GetRequestTexture(RequireImage, netURLS.GetMainDomain() + netURLS.GET_USER + user.id + netURLS.GET_USER_IMAGE);        
+        this.networkController.GetRequestTexture(RequireImage, netURLS.GetMainDomain() + netURLS.GET_USER + user.id + "/" + user.auth_token + netURLS.GET_USER_IMAGE);
     }
 
 
@@ -77,7 +83,7 @@ public class GameController03 : MonoBehaviour {
     {
         var netURLS = this.networkController.GetUrls();
         UserResponse user = this.networkController.GetPersistentObjects().GetUser();
-        this.networkController.GetRequest(RequireMediaContentsUser, netURLS.GetMainDomain() + netURLS.GET_USER + user.id + netURLS.GET_USER_CONTENTS);
+        this.networkController.GetRequest(RequireMediaContentsUser, netURLS.GetMainDomain() + netURLS.GET_USER + user.id + "/" + user.auth_token + netURLS.GET_USER_CONTENTS);
     }
 
 
@@ -124,7 +130,7 @@ public class GameController03 : MonoBehaviour {
         string[] image_extensions = { ".png", ".jpg", ".jpeg" };
         var netURLS = this.networkController.GetUrls();
         List<string> images_urls = new List<string>();
-
+        UserResponse user = this.networkController.GetPersistentObjects().GetUser();
 
         foreach (string url in mediaContentsURLS)
         {
@@ -140,7 +146,7 @@ public class GameController03 : MonoBehaviour {
 
         foreach (string url_image in images_urls)
         {
-            this.networkController.GetRequestTextureAlpha(RequireMediaContentImage, netURLS.GetMainDomain() + netURLS.GET_USER_MEDIA_CONTENTS + "?path=" + url_image, url_image);
+            this.networkController.GetRequestTextureAlpha(RequireMediaContentImage, netURLS.GetMainDomain() + netURLS.GET_USER + user.id + "/" + user.auth_token + netURLS.GET_USER_MEDIA_CONTENTS + "?path=" + url_image, url_image);
         }
 
         if (this.LEN_RESOURCES == 0)
