@@ -33,15 +33,16 @@ public class GameController05 : MonoBehaviour {
     {
         this.networkController = GameObject.FindGameObjectWithTag("NetworkController").GetComponent<NetworkController>();
         this.filePanel = this.GetComponent<FilePanel>();
-        this.MAX_LIMIT_WIDTH = canvas.GetComponent<RectTransform>().rect.width;
+        
     }
 
     private void Start()
-    {        
-        width = (imageMediaContent.GetComponent<RectTransform>().rect.width + 10f) * canvas.scaleFactor;
-        x_count = 0f;
-        y_count = 0f;
-    
+    {
+        this.MAX_LIMIT_WIDTH = canvas.GetComponent<RectTransform>().rect.width;
+        this.width = (imageMediaContent.GetComponent<RectTransform>().rect.width + 10f) * canvas.scaleFactor;
+        this.x_count = 0f;
+        this.y_count = 0f;
+
         FillMediaContent();
     }
 
